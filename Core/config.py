@@ -14,7 +14,7 @@ from Core.Support import Language
 
 dest = "Configuration"
 nomefile = "Configuration.ini"
-filename = "../" + Language.Translation.Get_Language()
+filename = f"../{Language.Translation.Get_Language()}"
 filename
 
 
@@ -37,13 +37,12 @@ class Config:
                 Parser.read(nomefile)
                 recipient = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Email", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while recipient == "":
+                while not recipient:
                     recipient = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Email", "Modify") + Font.Color.RED + "[!]" + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if recipient == "None":
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Email", "NotChanged"))
-                    os.chdir("../")
                 else:
                     Parser.set("Smtp", "email", recipient)
                     with open(nomefile, 'w') as configfile:
@@ -52,13 +51,10 @@ class Config:
                         filename, "Configuration", "Email", "Changed"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + "FILE NOT FOUND\n\nPRESS ENTER TO CONTINUE")
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_password():
@@ -77,7 +73,6 @@ class Config:
                 if passw == "None":
                     out = input(
                         Language.Translation.Translate_Language(filename, "Configuration", "Password", "NotChanged"))
-                    os.chdir("../")
                 else:
                     Parser.set("Smtp", "password", passw)
                     with open(nomefile, 'w') as configfile:
@@ -86,13 +81,10 @@ class Config:
                         filename, "Configuration", "Password", "Changed"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Main", "Error"))
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_destination():
@@ -105,13 +97,12 @@ class Config:
                 Parser.read(nomefile)
                 destination = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Email", "Modify2") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while destination == "":
+                while not destination:
                     destination = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Email", "Modify2") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if destination == "None":
                     out = input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Email", "NotChanged2") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->")
-                    os.chdir("../")
                 else:
                     Parser.set("Smtp", "destination", destination)
                     with open(nomefile, 'w') as configfile:
@@ -120,13 +111,10 @@ class Config:
                           "Email", "Modify2") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->")
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + "FILE NOT FOUND\n\nPRESS ENTER TO CONTINUE")
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_port():
@@ -139,13 +127,12 @@ class Config:
                 Parser.read(nomefile)
                 port = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Smtp", "Modify2") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while port == "":
+                while not port:
                     port = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Smtp", "Modify2") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if port == "None":
                     out = input(
                         Language.Translation.Translate_Language(filename, "Configuration", "Smtp", "NotChanged2"))
-                    os.chdir("../")
                 else:
                     Parser.set("Smtp", "port", port)
                     with open(nomefile, 'w') as configfile:
@@ -154,13 +141,10 @@ class Config:
                         filename, "Configuration", "Smtp", "Changed2"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Modify", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Main", "Error"))
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_server():
@@ -173,13 +157,12 @@ class Config:
                 Parser.read(nomefile)
                 server = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Email", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while server == "":
+                while not server:
                     server = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Email", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if server == "None":
                     out = input(
                         Language.Translation.Translate_Language(filename, "Configuration", "Email", "NotChanged"))
-                    os.chdir("../")
                 else:
                     Parser.set("Smtp", "server", server)
                     with open(nomefile, 'w') as configfile:
@@ -188,13 +171,10 @@ class Config:
                         filename, "Configuration", "Email", "Changed"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Main", "Error"))
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_path():
@@ -207,13 +187,12 @@ class Config:
                 Parser.read(nomefile)
                 path = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Update-Path", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while path == "":
+                while not path:
                     path = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Update-Path", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if path == "None":
                     out = input(
                         "")
-                    os.chdir("../")
                 else:
                     Parser.set("Settings", "path", path)
                     with open(nomefile, 'w') as configfile:
@@ -222,13 +201,10 @@ class Config:
                         filename, "Configuration", "Update-Path", "NotChanged"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Main", "Error"))
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_update_pass():
@@ -274,13 +250,12 @@ class Config:
                 Parser.read(nomefile)
                 key = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Api", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while key == "":
+                while not key:
                     key = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Api", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if key == "None":
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Api", "NotChanged"))
-                    os.chdir("../")
                 else:
                     Parser.set("Settings", "api_key", key)
                     with open(nomefile, 'w') as configfile:
@@ -289,13 +264,10 @@ class Config:
                         filename, "Configuration", "Api", "Changed"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Main", "Error"))
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_proxy():
@@ -308,13 +280,12 @@ class Config:
                 Parser.read(nomefile)
                 proxy_path = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Proxy", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while proxy_path == "":
+                while not proxy_path:
                     proxy_path = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Proxy", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if proxy_path == "None":
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Proxy", "NotChanged"))
-                    os.chdir("../")
                 else:
                     Parser.set("Settings", "proxy_list", proxy_path)
                     with open(nomefile, 'w') as configfile:
@@ -323,13 +294,10 @@ class Config:
                         filename, "Configuration", "Proxy", "Changed"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Main", "Error"))
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_Log():
@@ -408,13 +376,12 @@ class Config:
                 Parser.read(nomefile)
                 Lang = str(input(
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Lang", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                while Lang == "":
+                while not Lang:
                     Lang = str(input(
                         Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Lang", "Modify") + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if Lang == "None":
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Lang", "NotChanged"))
-                    os.chdir("../")
                 else:
                     Parser.set("Settings", "language", Lang)
                     with open(nomefile, 'w') as configfile:
@@ -423,13 +390,10 @@ class Config:
                         filename, "Configuration", "Lang", "Changed"))
                     out = input(Language.Translation.Translate_Language(
                         filename, "Configuration", "Main", "Exit"))
-                    os.chdir("../")
             else:
                 inp = input(
                     Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Configuration", "Main", "Error"))
-                os.chdir("../")
-        else:
-            os.chdir("../")
+        os.chdir("../")
 
     @staticmethod
     def modify_Email_Status():
@@ -504,14 +468,8 @@ class Config:
     def main(Mode):
         filename = Language.Translation.Get_Language()
         filename
-        if (os.name != "nt"):
-            if os.geteuid() == 0:
-                Conf = True
-            else:
-                Conf = False
-        else:
-            Conf = True
-        if Conf == True:
+        Conf = (os.name != "nt") and os.geteuid() == 0 or os.name == "nt"
+        if Conf:
             while True:
                 Config.Banner(Mode)
                 option = Language.Translation.Translate_Language(
@@ -524,6 +482,20 @@ class Config:
                                 "\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
                 if sce == 1:
                     Config.modify_recipient()
+                elif sce == 10:
+                    Config.modify_Log()
+                elif sce == 11:
+                    Config.modify_Database_Visibility()
+                elif sce == 12:
+                    Config.modify_Language()
+                elif sce == 13:
+                    Config.modify_Email_Status()
+                elif sce == 14:
+                    Config.modify_Date()
+                elif sce == 15:
+                    inp = input(Language.Translation.Translate_Language(
+                        filename, "Configuration", "Main", "Exit"))
+                    holmes.Main.Menu(Mode)
                 elif sce == 2:
                     Config.modify_destination()
                 elif sce == 3:
@@ -540,20 +512,6 @@ class Config:
                     Config.modify_key()
                 elif sce == 9:
                     Config.modify_proxy()
-                elif sce == 10:
-                    Config.modify_Log()
-                elif sce == 11:
-                    Config.modify_Database_Visibility()
-                elif sce == 12:
-                    Config.modify_Language()
-                elif sce == 13:
-                    Config.modify_Email_Status()
-                elif sce == 14:
-                    Config.modify_Date()
-                elif sce == 15:
-                    inp = input(Language.Translation.Translate_Language(
-                        filename, "Configuration", "Main", "Exit"))
-                    holmes.Main.Menu(Mode)
                 else:
                     Config.main(Mode)
         else:

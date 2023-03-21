@@ -7,10 +7,9 @@ from configparser import ConfigParser
 
 class Check:
 
-    @staticmethod 
+    @staticmethod
     def WhoIs():
         api = "Configuration/Configuration.ini"
         Parser = ConfigParser()
         Parser.read(api)
-        Key = Parser["Settings"]["Api_Key"]
-        return Key
+        return Parser["Settings"]["Api_Key"]

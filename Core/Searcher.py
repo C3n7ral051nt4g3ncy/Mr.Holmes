@@ -36,13 +36,9 @@ class MrHolmes:
         print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
               Language.Translation.Translate_Language(filename, "Default", "Proxy", "None").format(http_proxy2))
         if identity != "None":
-            print(Font.Color.GREEN + "[+]" + Font.Color.WHITE + identity)
-        else:
-            pass
-        json_file = "GUI/Reports/Usernames/{}/{}.json".format(
-            username, username)
-        json_file2 = "GUI/Reports/Usernames/{}/{}.json".format(
-            username, "Name")
+            print(f"{Font.Color.GREEN}[+]{Font.Color.WHITE}{identity}")
+        json_file = f"GUI/Reports/Usernames/{username}/{username}.json"
+        json_file2 = f"GUI/Reports/Usernames/{username}/Name.json"
         data = json.loads(f.read())
         for sites in data:
             for data1 in sites:
@@ -64,7 +60,11 @@ class MrHolmes:
                         alert = "CORRECT"
                 if alert == "NOT-CORRECT":
                     print(
-                        Font.Color.YELLOW2 + "[U]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Username", "Default", "Not_Valid"))
+                        f"{Font.Color.YELLOW2}[U]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Username", "Default", "Not_Valid"
+                        )
+                    )
                 else:
                     try:
                         Requests_Search.Search.search(error, report, site1, site2, http_proxy, sites, data1, username,
@@ -82,7 +82,7 @@ class MrHolmes:
                 if choice == 1:
                     http_proxy = Proxies.proxy.final_proxis
                     http_proxy2 = Proxies.proxy.choice3
-                    source = "http://ip-api.com/json/" + http_proxy2
+                    source = f"http://ip-api.com/json/{http_proxy2}"
                     access = urllib.request.urlopen(source)
                     try:
                         content = access.read()
@@ -108,20 +108,18 @@ class MrHolmes:
 
     @staticmethod
     def Google_dork(username):
-        report = "GUI/Reports/Usernames/Dorks/{}_Dorks.txt".format(username)
+        report = f"GUI/Reports/Usernames/Dorks/{username}_Dorks.txt"
         nomefile = "Site_lists/Username/Google_dorks.txt"
         Type = "GOOGLE"
         if os.path.isfile(report):
             os.remove(report)
             print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Dorks", "Remove", "None").format(username))
-        else:
-            pass
         Dorks.Search.dork(username, report, nomefile, Type)
 
     @staticmethod
     def Yandex_dork(username):
-        report = "GUI/Reports/Usernames/Dorks/{}_Dorks.txt".format(username)
+        report = f"GUI/Reports/Usernames/Dorks/{username}_Dorks.txt"
         nomefile = "Site_lists/Username/Yandex_dorks.txt"
         Type = "YANDEX"
         Dorks.Search.dork(username, report, nomefile, Type)

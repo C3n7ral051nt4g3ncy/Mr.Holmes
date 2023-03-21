@@ -13,17 +13,22 @@ filename
 
 class Random:
 
-    def Get_Banner(Folder, Mode):
+    def Get_Banner(self, Mode):
         if Mode == "Desktop":
             List = ["Banner1.txt", "Banner2.txt", "Banner3.txt"]
         elif Mode == "Mobile":
             List = ["Banner4.txt", "Banner5.txt"]
         else:
-            print(Font.Color.RED + "[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(
-                filename, "Default", "DisplayError", "None"))
+            print(
+                (
+                    f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "DisplayError", "None"
+                    )
+                )
+            )
             exit()
         choice = random.choice(List)
-        f = open(Folder + "/" + choice, "r", newline=None)
-        banner = f.read()
-        f.close()
+        with open(f"{self}/{choice}", "r", newline=None) as f:
+            banner = f.read()
         print(Font.Color.GREEN + banner)

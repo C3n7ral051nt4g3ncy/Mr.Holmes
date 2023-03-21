@@ -15,7 +15,7 @@ class Creation:
     @staticmethod
     def mapPost(data_fold, Lat, Lon, image2):
         map_file = data_fold + \
-            "/Map.html"
+                "/Map.html"
         rescue = 'var image = document.getElementById("Image");image.addEventListener("error",function handleError(){image.src="../../../../../../Icon/Entities/Image.png";image.style.width="250px";image.style.height="250px";});'
         content = '''
         <!--{}-->
@@ -45,11 +45,16 @@ class Creation:
                 </script>;       
             </body>
         </html>'''.format(Language.Translation.Translate_Language(LangFile, "Default", "Generated", "None"),image2, image2, image2, rescue, Lat, Lon, "{s}", "{z}", "{x}", "{y}", "{ attribution: '&copy; <a href= https://www.openstreetmap.org/copyright >OpenStreetMap</a> contributors'})", Lat, Lon, image2)
-        f = open(map_file, "w", encoding="utf-8")
-        f.write(content)
-        f.close()
-        print(Font.Color.BLUE + "[I]" + Font.Color.WHITE +
-              Language.Translation.Translate_Language(LangFile, "Default", "Map", "None").format(map_file))
+        with open(map_file, "w", encoding="utf-8") as f:
+            f.write(content)
+        print(
+            (
+                f"{Font.Color.BLUE}[I]{Font.Color.WHITE}"
+                + Language.Translation.Translate_Language(
+                    LangFile, "Default", "Map", "None"
+                ).format(map_file)
+            )
+        )
 
     @staticmethod
     def mapPhone(jsonfile, Lat, Lon, num,Type):
@@ -83,11 +88,16 @@ class Creation:
                 </script>;       
             </body>
         </html>'''.format(Language.Translation.Translate_Language(LangFile, "Default", "Generated", "None"),link,icon,num,Lat, Lon, "{s}", "{z}", "{x}", "{y}", "{ attribution: '&copy; <a href= https://www.openstreetmap.org/copyright >OpenStreetMap</a> contributors'})", Lat, Lon, num)
-        f = open(map_file, "w", encoding="utf-8")
-        f.write(content)
-        f.close()
-        print(Font.Color.BLUE + "[I]" + Font.Color.WHITE +
-              Language.Translation.Translate_Language(LangFile,"Default", "Map", "None").format(map_file))
+        with open(map_file, "w", encoding="utf-8") as f:
+            f.write(content)
+        print(
+            (
+                f"{Font.Color.BLUE}[I]{Font.Color.WHITE}"
+                + Language.Translation.Translate_Language(
+                    LangFile, "Default", "Map", "None"
+                ).format(map_file)
+            )
+        )
 
     @staticmethod
     def mapWeb(jsonfile, Lat, Lon, username):
@@ -116,8 +126,13 @@ class Creation:
                 </script>;       
             </body>
         </html>'''.format(Language.Translation.Translate_Language(LangFile, "Default", "Generated", "None"),username,Lat, Lon, "{s}", "{z}", "{x}", "{y}", "{ attribution: '&copy; <a href= https://www.openstreetmap.org/copyright >OpenStreetMap</a> contributors'})", Lat, Lon,username)
-        f = open(map_file, "w", encoding="utf-8")
-        f.write(content)
-        f.close()
-        print(Font.Color.BLUE + "[I]" + Font.Color.WHITE +
-              Language.Translation.Translate_Language(LangFile,"Default", "Map", "None").format(map_file))
+        with open(map_file, "w", encoding="utf-8") as f:
+            f.write(content)
+        print(
+            (
+                f"{Font.Color.BLUE}[I]{Font.Color.WHITE}"
+                + Language.Translation.Translate_Language(
+                    LangFile, "Default", "Map", "None"
+                ).format(map_file)
+            )
+        )

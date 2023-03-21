@@ -25,93 +25,99 @@ class Search:
 
     @staticmethod
     def Instagram(report, username, http_proxy, InstagramParams, PostLocations, PostGpsCoordinates, imagefold, username2):
-        List = []
         Links = []
-        print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
-              "SCANNING FOR {} INSTAGRAM RESULTS...".format(username))
-        url = "https://www.pixwox.com/search/?q={}".format(username)
+        print(
+            Font.Color.GREEN
+            + "\n[+]"
+            + Font.Color.WHITE
+            + f"SCANNING FOR {username} INSTAGRAM RESULTS..."
+        )
+        url = f"https://www.pixwox.com/search/?q={username}"
         req = requests.get(url, timeout=None, proxies=None, headers=headers)
         sleep(4)
+        List = []
         try:
             if req.status_code == 200:
                 reader = soup(req.content, "html.parser")
                 users = reader.find_all("div", class_="item")
                 i = 1
-                f = open(report, "a",encoding="utf-8")
-                f.write(
-                    "\n\n--------------------------------\nSHOWING INSTAGRAM RESULTS FOR: {}\n".format(username))
-                for user in users:
-                    if i <= 20:
+                with open(report, "a",encoding="utf-8") as f:
+                    f.write(
+                        f"\n\n--------------------------------\nSHOWING INSTAGRAM RESULTS FOR: {username}\n"
+                    )
+                    for user in users:
+                        if i > 20:
+                            break
                         usern1 = user.find_all("div",class_="username")
                         for name in usern1:
                             usern = name.find("span").text.replace("@","")
                         name = user.find("div",class_="fullname").text
-                        link = "https://instagram.com/{}".format(usern)
-                        print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + "USER FOUND: {}".format(
-                            Font.Color.GREEN + usern + Font.Color.WHITE))
-                        print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + "FULL NAME: {}".format(
-                            Font.Color.GREEN + name + Font.Color.WHITE))
-                        print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + "LINK: {}\n".format(
-                            Font.Color.GREEN + link + Font.Color.WHITE))
+                        link = f"https://instagram.com/{usern}"
+                        print(
+                            f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                            + f"USER FOUND: {Font.Color.GREEN + usern + Font.Color.WHITE}"
+                        )
+                        print(
+                            f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                            + f"FULL NAME: {Font.Color.GREEN + name + Font.Color.WHITE}"
+                        )
+                        print(
+                            f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                            + f"LINK: {Font.Color.GREEN + link + Font.Color.WHITE}\n"
+                        )
                         List.append(usern)
                         Links.append(link)
-                        f.write("\nUSER FOUND: {}".format(usern))
-                        f.write("\nFULL-NAME: {}".format(name))
-                        f.write("\nLINK: {}\n".format(link))
+                        f.write(f"\nUSER FOUND: {usern}")
+                        f.write(f"\nFULL-NAME: {name}")
+                        f.write(f"\nLINK: {link}\n")
                         i = i+1
-                    else:
-                        break
-                f.close()
-                print(Font.Color.GREEN + "[+]" +
-                    Font.Color.WHITE + "TOTAL USERNAMES FOUND")
+                print(f"{Font.Color.GREEN}[+]{Font.Color.WHITE}TOTAL USERNAMES FOUND")
 
             else:
                 print("ERROR")
-        
+
         except ConnectionError:
-            print(Font.Color.RED + "[!]" +
-                  Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Connection_Error2", "None"))
-            pass
+            print(
+                f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                + Language.Translation.Translate_Language(
+                    filename, "Default", "Connection_Error2", "None"
+                )
+            )
         except Exception as e:
-            print(Font.Color.RED + "[!]" +
-                  Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Error", "None") + str(e))
-            pass
+            print(
+                f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                + Language.Translation.Translate_Language(
+                    filename, "Default", "Error", "None"
+                )
+                + str(e)
+            )
         j = 1
         if len(List):
             for Names in List:
-                print(Font.Color.YELLOW +
-                      "[v]" + Font.Color.WHITE + "USERNAME N°{}: {}".format(j, Names))
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"USERNAME N°{j}: {Names}")
                 j = j+1
-            json_file = "GUI/Reports/People/{}/Insta_Link.json".format(username2)
-            f = open(json_file, "w")
-            f.write('''{
+            json_file = f"GUI/Reports/People/{username2}/Insta_Link.json"
+            with open(json_file, "w") as f:
+                f.write('''{
                         "List":[
 
                         ]
                     }''')
-            f.close()
-
             for link in Links:
-                data = {
-                    "site": "{}".format(link)
-                }
+                data = {"site": f"{link}"}
                 with open(json_file, 'r+') as file:
                     file_data = json.load(file)
                     file_data["List"].append(data)
                     file.seek(0)
                     json.dump(file_data, file, indent=4)
-            
+
             opt = int(input(Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Username", "Default", "Scraper") +
                             Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
             if opt == 1:
                 check = str(input(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE + "INSERT THE USERNANE TO CHECK\n\n" +
                                 Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-                if check not in List:
-                    pass
-                else:
-                    if os.path.isdir(imagefold):
-                        pass
-                    else:
+                if check in List:
+                    if not os.path.isdir(imagefold):
                         os.mkdir(imagefold)
                     Scraper.info.Instagram(report, check, http_proxy, InstagramParams,
                                         PostLocations, PostGpsCoordinates, "People", username2)

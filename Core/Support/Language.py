@@ -16,19 +16,15 @@ class Translation:
         Parser = ConfigParser()
         Parser.read(Config_file)
         Lang = Parser["Settings"]["language"]
-        filename = "Lang/{}.json".format(Lang)
-        if os.path.isfile(filename):
-            filename = filename
-        else:
-            filename = "Lang/english.json"
-        return filename
+        filename = f"Lang/{Lang}.json"
+        return filename if os.path.isfile(filename) else "Lang/english.json"
 
     @staticmethod
     def Translate_Language(filename, List, Row, SubRow):
         reader = open(filename, )
         parser = json.loads(reader.read())
-        if List == "Configuration" or List == "Username" or List == "Website" or List == "Report":
-            Phrase = parser[List][0][Row][SubRow]
-        else:
-            Phrase = parser[List][Row]
-        return Phrase
+        return (
+            parser[List][0][Row][SubRow]
+            if List in ["Configuration", "Username", "Website", "Report"]
+            else parser[List][Row]
+        )

@@ -22,35 +22,38 @@ class info:
 
     @staticmethod
     def Profile_Pic(username, profile_pic, SiteName, Opt,name2):
-        image = "GUI/Reports/{}/{}/Profile_pics/Profile_pic_{}.jpg".format(
-        Opt, name2, SiteName)
+        image = f"GUI/Reports/{Opt}/{name2}/Profile_pics/Profile_pic_{SiteName}.jpg"
         getter = requests.get(
             profile_pic, headers=headers, allow_redirects=True)
         try:
             try:
-                  open(image, "wb+").write(getter.content)
+                open(image, "wb+").write(getter.content)
             except Exception as e:
-                  print(str(e))
+                print(e)
             print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Username", "Default", "Saved").format(image))
         except Exception as e:
-            print("error" + str(e))
-        f = open(image,"rb")
-        reader = f.read()
-        f.close()
+            print(f"error{str(e)}")
+        with open(image,"rb") as f:
+            reader = f.read()
 
     @staticmethod
     def Get_Url(username, Name):
         filename = "Site_lists/Username/site_list.json"
         reader = open(filename,)
         parser = json.loads(reader.read())
-        site = parser[0][Name]["Scrapable_url"].replace("{}", username)
-        return site
+        return parser[0][Name]["Scrapable_url"].replace("{}", username)
 
     @staticmethod
     def Imgur(report, username, http_proxy,Opt,name2):
-        print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
-              "SCRAPING {} IMGUR PROFILE...".format(username))
+        print(
+            (
+                Font.Color.GREEN
+                + "\n[+]"
+                + Font.Color.WHITE
+                + f"SCRAPING {username} IMGUR PROFILE..."
+            )
+        )
         url = info.Get_Url(username, "Imgur")
         url
         openurl = requests.get(url, proxies=http_proxy,
@@ -58,7 +61,6 @@ class info:
         try:
             reader = openurl.text
             converted = json.loads(reader)
-            id_user = converted["id"]
             user = converted["username"]
             bio = converted["bio"]
             reputation = converted["reputation_count"]
@@ -66,51 +68,68 @@ class info:
             cover_url = converted["cover_url"]
             creation = converted["created_at"]
 
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "ID: {}".format(id_user))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "USERNAME: {}".format(user))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "BIO: {}".format(bio))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "REPUTATION: {}".format(reputation))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "AVATAR-IMAGE: {}".format(profile_pic))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "COVER-IMAGE: {}".format(cover_url))
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "ACCOUNT-CREATED ON: {}".format(creation))
+            id_user = converted["id"]
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"ID: {id_user}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"USERNAME: {user}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"BIO: {bio}")
+            print(
+                f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                + f"REPUTATION: {reputation}"
+            )
+            print(
+                f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                + f"AVATAR-IMAGE: {profile_pic}"
+            )
+            print(
+                f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                + f"COVER-IMAGE: {cover_url}"
+            )
+            print(
+                f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                + f"ACCOUNT-CREATED ON: {creation}"
+            )
 
             download = int(input(Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Username", "Default", "Profile_Pic").format(
                 username) + Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
             if download == 1:
                 SiteName = "Imgur"
                 info.Profile_Pic(username, profile_pic, SiteName,Opt,name2)
-            else:
-                pass
-
-            f = open(report, "a", encoding="utf-8")
-            f.write("\nIMGUR DATA:\n")
-            f.write("ID: {}\r\n".format(id_user))
-            f.write("USERNAME: {}\r\n".format(user))
-            f.write("BIO: {}\r\n".format(bio))
-            f.write("REPUTATION: {}\r\n".format(reputation))
-            f.write("ACCOUNT-CREATED ON: {}\r\n".format(creation))
-            f.close()
-
+            with open(report, "a", encoding="utf-8") as f:
+                f.write("\nIMGUR DATA:\n")
+                f.write(f"ID: {id_user}\r\n")
+                f.write(f"USERNAME: {user}\r\n")
+                f.write(f"BIO: {bio}\r\n")
+                f.write(f"REPUTATION: {reputation}\r\n")
+                f.write(f"ACCOUNT-CREATED ON: {creation}\r\n")
         except ConnectionError:
-            print(Font.Color.RED + "[!]" +
-                  Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Connection_Error2", "None"))
-            pass
+            print(
+                (
+                    f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "Connection_Error2", "None"
+                    )
+                )
+            )
         except Exception as e:
-            print(Font.Color.RED + "[!]" +
-                  Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Error", "None"))
-            pass
+            print(
+                (
+                    f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "Error", "None"
+                    )
+                )
+            )
 
     @staticmethod
     def Pr0gramm(report, username, http_proxy,Opt,name2):
-        print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
-              "SCRAPING {} PR0GRAMM PROFILE...".format(username))
+        print(
+            (
+                Font.Color.GREEN
+                + "\n[+]"
+                + Font.Color.WHITE
+                + f"SCRAPING {username} PR0GRAMM PROFILE..."
+            )
+        )
         url = info.Get_Url(username, "Pr0gramm")
         url
         openurl = requests.get(url, proxies=http_proxy,
@@ -118,7 +137,6 @@ class info:
         try:
             reader = openurl.text
             converted = json.loads(reader)
-            id_user = converted["user"]["id"]
             user = converted["user"]["name"]
             score = converted["user"]["score"]
             comment_deleted = converted["user"]["commentDelete"]
@@ -127,55 +145,67 @@ class info:
             likes = converted["likeCount"]
             tags = converted["tagCount"]
 
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "ID: {}".format(id_user))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "USERNAME: {}".format(user))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "SCORE: {}".format(score))
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "COMMENT-DELETED: {}".format(comment_deleted))
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "COMMENT-COUNTS: {}".format(comment_count))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "UPLOAD: {}".format(upload_count))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "TAGS: {}".format(tags))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "LIKES: {}".format(likes))
+            id_user = converted["user"]["id"]
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"ID: {id_user}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"USERNAME: {user}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"SCORE: {score}")
+            print(
+                f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                + f"COMMENT-DELETED: {comment_deleted}"
+            )
+            print(
+                f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                + f"COMMENT-COUNTS: {comment_count}"
+            )
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"UPLOAD: {upload_count}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"TAGS: {tags}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"LIKES: {likes}")
 
-            f = open(report, "a", encoding="utf-8")
-            f.write("\nPR0GRAMM DATA:\n")
-            f.write("ID: {}\r\n".format(id_user))
-            f.write("USERNAME: {}\r\n".format(user))
-            f.write("SCORE: {}\r\n".format(score))
-            f.write("COMMENT-DELETED: {}\r\n".format(comment_deleted))
-            f.write("COMMENT-COUNTS: {}\r\n".format(comment_count))
-            f.write("UPLOAD: {}\r\n".format(upload_count))
-            f.write("TAGS: {}\r\n".format(tags))
-            f.write("LIKES: {}\r\n".format(likes))
-            f.close()
-
+            with open(report, "a", encoding="utf-8") as f:
+                f.write("\nPR0GRAMM DATA:\n")
+                f.write(f"ID: {id_user}\r\n")
+                f.write(f"USERNAME: {user}\r\n")
+                f.write(f"SCORE: {score}\r\n")
+                f.write(f"COMMENT-DELETED: {comment_deleted}\r\n")
+                f.write(f"COMMENT-COUNTS: {comment_count}\r\n")
+                f.write(f"UPLOAD: {upload_count}\r\n")
+                f.write(f"TAGS: {tags}\r\n")
+                f.write(f"LIKES: {likes}\r\n")
         except ConnectionError:
-            print(Font.Color.RED + "[!]" +
-                  Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Connection_Error2", "None"))
-            pass
+            print(
+                (
+                    f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "Connection_Error2", "None"
+                    )
+                )
+            )
         except Exception as e:
-            print(Font.Color.RED + "[!]" +
-                  Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Error", "None"))
-            pass
+            print(
+                (
+                    f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "Error", "None"
+                    )
+                )
+            )
 
     @staticmethod
     def Binarysearch(report, username, http_proxy,Opt,name2):
-        print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
-              "SCRAPING {} BINARYSEARCH PROFILE...".format(username))
+        print(
+            (
+                Font.Color.GREEN
+                + "\n[+]"
+                + Font.Color.WHITE
+                + f"SCRAPING {username} BINARYSEARCH PROFILE..."
+            )
+        )
         url = info.Get_Url(username, "BinarySearch")
         url
         openurl = requests.get(url, proxies=http_proxy, headers=headers)
         try:
             reader = openurl.text
             converted = json.loads(reader)
-            id_user = converted["user"]["id"]
             user = converted["user"]["username"]
             admin = converted["user"]["isAdmin"]
             verified = converted["user"]["isVerified"]
@@ -183,40 +213,45 @@ class info:
             bio = converted["user"]["bio"]
             major = converted["user"]["major"]
 
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "ID: {}".format(id_user))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "USERNAME: {}".format(user))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "IS-ADMIN?: {}".format(admin))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "IS-VERIFIED?: {}".format(verified))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "LOCATION: {}".format(location))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "BIO: {}".format(bio))
-            print(Font.Color.YELLOW + "[v]" +
-                  Font.Color.WHITE + "MAJOR: {}".format(major))
+            id_user = converted["user"]["id"]
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"ID: {id_user}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"USERNAME: {user}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"IS-ADMIN?: {admin}")
+            print(
+                f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                + f"IS-VERIFIED?: {verified}"
+            )
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"LOCATION: {location}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"BIO: {bio}")
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"MAJOR: {major}")
 
-            f = open(report, "a", encoding="utf-8")
-            f.write("\nBINARYSEARCH DATA:\n")
-            f.write("ID: {}\r\n".format(id_user))
-            f.write("USERNAME: {}\r\n".format(user))
-            f.write("BIO: {}\r\n".format(bio))
-            f.write("IS-ADMIN: {}\r\n".format(admin))
-            f.write("IS-VERIFIED: {}\r\n".format(verified))
-            f.write("LOCATION: {}\r\n".format(location))
-            f.write("MAJOR: {}\r\n".format(major))
-            f.close()
-
+            with open(report, "a", encoding="utf-8") as f:
+                f.write("\nBINARYSEARCH DATA:\n")
+                f.write(f"ID: {id_user}\r\n")
+                f.write(f"USERNAME: {user}\r\n")
+                f.write(f"BIO: {bio}\r\n")
+                f.write(f"IS-ADMIN: {admin}\r\n")
+                f.write(f"IS-VERIFIED: {verified}\r\n")
+                f.write(f"LOCATION: {location}\r\n")
+                f.write(f"MAJOR: {major}\r\n")
         except ConnectionError:
-            print(Font.Color.RED + "[!]" +
-                  Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Connection_Error2", "None"))
-            pass
+            print(
+                (
+                    f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "Connection_Error2", "None"
+                    )
+                )
+            )
         except Exception as e:
-            print(Font.Color.RED + "[!]" +
-                  Language.Translation.Translate_Language(filename, "Default", "Error", "None"))
-            pass
+            print(
+                (
+                    f"{Font.Color.RED}[!]"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "Error", "None"
+                    )
+                )
+            )
 
     @staticmethod
     def MixCloud(report, username, http_proxy,Opt,name2):

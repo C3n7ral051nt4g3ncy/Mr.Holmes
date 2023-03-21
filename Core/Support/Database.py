@@ -27,35 +27,40 @@ class Controller:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(('8.8.8.8', 1))
             host = s.getsockname()[0]
-            if (os.name != "nt"):
-                if os.getuid() == 0:
-                    os.system("php -S" + host +
-                              ":5001 -t GUI >/dev/null 2>&1 &")
-                    Req = True
-                else:
-                    Req = False
-            else:
-                os.system("START /B php -S " + host +
-                          ":5001 -t GUI 2>NUL >NUL")
+            if os.name == "nt":
+                os.system(f"START /B php -S {host}:5001 -t GUI 2>NUL >NUL")
                 Req = True
 
+            elif os.getuid() == 0:
+                os.system(f"php -S{host}:5001 -t GUI >/dev/null 2>&1 &")
+                Req = True
+            else:
+                Req = False
             link = host
         else:
-            if (os.name != "nt"):
-                if os.getuid() == 0:
-                    os.system("php -S 127.0.0.1:5001 -t GUI >/dev/null 2>&1 &")
-                    Req = True
-                else:
-                    Req = False
-
-            else:
+            if os.name == "nt":
                 os.system("START /B php -S 127.0.0.1:5001 -t GUI 2>NUL >NUL")
                 Req = True
+            elif os.getuid() == 0:
+                os.system("php -S 127.0.0.1:5001 -t GUI >/dev/null 2>&1 &")
+                Req = True
+            else:
+                Req = False
+
             link = "127.0.0.1"
         if Req:
             sleep(3)
-            print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
-                  Language.Translation.Translate_Language(filename, "Database", "Link", "None") + "http://{}:5001".format(link))
+            print(
+                (
+                    Font.Color.BLUE
+                    + "\n[I]"
+                    + Font.Color.WHITE
+                    + Language.Translation.Translate_Language(
+                        filename, "Database", "Link", "None"
+                    )
+                    + f"http://{link}:5001"
+                )
+            )
             inp = input(Font.Color.WHITE + Language.Translation.Translate_Language(
                 filename, "Database", "Quit", "None"))
             if (os.name != "nt"):
@@ -77,12 +82,8 @@ class Controller:
                       Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Database", "Token", "None"))
             if os.path.isfile(Temp):
                 os.remove(Temp)
-            else:
-                pass
             if os.path.isfile(Temp2):
                 os.remove(Temp2)
-            else:
-                pass
             sleep(3)
         else:
             print(Font.Color.RED + "\n[!]" + Font.Color.WHITE +

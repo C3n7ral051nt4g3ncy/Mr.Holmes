@@ -19,18 +19,16 @@ class Search:
               Language.Translation.Translate_Language(filename, "Dorks", "Generation", "None").format(Type))
         sleep(2)
         username = username.replace(" ","+")
-        f = open(report, "a")
-        f.write(Type + "-DORKS:\n\n")
-        f.close()
-        f = open(nomefile, "r")
-        for sites in f:
-            site = sites.rstrip("\n")
-            site = site.replace("{}", username)
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + site)
-            sleep(2)
-            f = open(report, "a")
-            f.write(site + "\n")
-        f.close()
+        with open(report, "a") as f:
+            f.write(Type + "-DORKS:\n\n")
+        with open(nomefile, "r") as f:
+            for sites in f:
+                site = sites.rstrip("\n")
+                site = site.replace("{}", username)
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{site}")
+                sleep(2)
+                f = open(report, "a")
+                f.write(site + "\n")
         f.close()
         print(Font.Color.WHITE + Language.Translation.Translate_Language(filename,
               "Default", "Report", "None") + report)
@@ -44,18 +42,16 @@ class Search:
             phrase = phrase.replace(" ", "%2B")
         else:"""
         phrase = phrase.replace(" ","+")
-        f = open(report, "a")
-        f.write("\n" + Type + "-DORKS:\n\n")
-        f.close()
-        f = open(nomefile, "r")
-        for sites in f:
-            site = sites.rstrip("\n")
-            site = site.replace("{}", phrase)
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + site)
-            sleep(2)
-            f = open(report, "a")
-            f.write(site + "\n")
-        f.close()
+        with open(report, "a") as f:
+            f.write("\n" + Type + "-DORKS:\n\n")
+        with open(nomefile, "r") as f:
+            for sites in f:
+                site = sites.rstrip("\n")
+                site = site.replace("{}", phrase)
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{site}")
+                sleep(2)
+                f = open(report, "a")
+                f.write(site + "\n")
         f.close()
         print(Font.Color.WHITE + Language.Translation.Translate_Language(filename,
               "Default", "Report", "None") + report)

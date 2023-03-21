@@ -66,12 +66,10 @@ class Menu:
         </body>
         </html>'''.format(style,username,Date,str(Content)).replace("../Reports","GUI/Reports").replace("../Icon","GUI/Icon").replace("\n","").replace("''","")
         filename = filename.replace(".mh",".html")
-        f = open(filename,"w")
-        f.write(header)
-        f.close()
-        reader = open(filename,"r",newline=None)
-        htmlcontent = reader.read()
-        reader.close()
+        with open(filename,"w") as f:
+            f.write(header)
+        with open(filename,"r",newline=None) as reader:
+            htmlcontent = reader.read()
         parser = soup(htmlcontent,"html.parser")
         List = []
         Encoded = []
@@ -83,8 +81,8 @@ class Menu:
         sleep(4)
         for image in images:
             img = image["src"]
-            List.append(img) 
-            print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE + "IMAGE FOUND: {}".format(img))
+            List.append(img)
+            print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE + f"IMAGE FOUND: {img}")
             for element in List:
                 if "https://" in element:
                     image["src"]=element
@@ -98,17 +96,13 @@ class Menu:
                         Link = link["href"]
                         Links.append(Link)
                         for element in Links:
-                            if "https://" in element:
-                                link["href"]=element
-                            else:
-                                link["href"]=""
-
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + "IMAGE ENCODED...")
+                            link["href"] = element if "https://" in element else ""
+            print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}IMAGE ENCODED...")
             sleep(2)
         html = parser.contents
         with open(filename, "w+") as file:
             file.write(str(html).replace("[","").strip("]"))
-        pdf_name = "GUI/PDF/{}.pdf".format(username)
+        pdf_name = f"GUI/PDF/{username}.pdf"
         pdfkit.from_file(filename, pdf_name)
         print(Font.Color.WHITE + Language.Translation.Translate_Language(langfile, "Default", "Report", "None") +
               pdf_name)
@@ -116,7 +110,7 @@ class Menu:
         choice = int(input(
                 Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(langfile, "Transfer", "Question", "None") + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
         if choice == 1:
-            FileTransfer.Transfer.File(pdf_name,username,".pdf") 
+            FileTransfer.Transfer.File(pdf_name,username,".pdf")
         os.remove(filename)
 
 
@@ -128,14 +122,12 @@ class Menu:
         else:
             Menu.Banner(Mode)
             username2 = username.replace(" ","_")
-            encoded = "GUI/Graphs/{}/encode.mh".format(username2)
-            filename = "GUI/Graphs/{}/{}.mh".format(username2,username)
-            encode = open(encoded,"r")
-            mode = encode.read()
-            encode.close()
-            reader = open(filename,"r+",encoding="utf-8")
-            f = reader.read()
-            reader.close()
+            encoded = f"GUI/Graphs/{username2}/encode.mh"
+            filename = f"GUI/Graphs/{username2}/{username}.mh"
+            with open(encoded,"r") as encode:
+                mode = encode.read()
+            with open(filename,"r+",encoding="utf-8") as reader:
+                f = reader.read()
             print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                             langfile, "PDF", "Check", "None"))
             sleep(3)
@@ -144,8 +136,6 @@ class Menu:
                 Base64_Byte = base64.b64decode(encodingString)
                 FinalString = Base64_Byte.decode("utf-8")
                 f = FinalString
-            else:
-                pass
             template = int(input(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                             langfile, "PDF", "Template", "None") +  Font.Color.GREEN + "\n\n[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
             htmlcontent = ""

@@ -34,21 +34,25 @@ class Ports:
         now = datetime.now()
         dataformat = DateFormat.Get.Format()
         dt_string = now.strftime(dataformat)
-        Date = "Date: " + str(dt_string)
-        report = "GUI/Reports/Ports/{}.txt".format(username)
+        Date = f"Date: {str(dt_string)}"
+        report = f"GUI/Reports/Ports/{username}.txt"
         if os.path.exists(report):
-            print(Font.Color.BLUE + "[I]" + Font.Color.WHITE +
-                  Language.Translation.Translate_Language(filename, "Default", "Delete", "None").format(username))
+            print(
+                (
+                    f"{Font.Color.BLUE}[I]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "Delete", "None"
+                    ).format(username)
+                )
+            )
             os.remove(report)
-        f = open(report, "a")
-        f.write("SCANNING EXECUTED ON:\n" + Date + "\r\n")
-        f.write("OPEN PORTS:\r\n")
-        f.close()
+        with open(report, "a") as f:
+            f.write("SCANNING EXECUTED ON:\n" + Date + "\r\n")
+            f.write("OPEN PORTS:\r\n")
         Scanner.Port.Scan(username, report)
-        f = open(report, "a")
-        f.write(Language.Translation.Translate_Language(
-            filename, "Report", "Default", "By"))
-        f.close()
+        with open(report, "a") as f:
+            f.write(Language.Translation.Translate_Language(
+                filename, "Report", "Default", "By"))
         print(Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Report", "None") +
             report)
         Notification.Notifier.Start(Mode)
@@ -56,7 +60,7 @@ class Ports:
         choice = int(input(
                 Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Transfer", "Question", "None") + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
         if choice == 1:
-            FileTransfer.Transfer.File(report,username,".txt") 
+            FileTransfer.Transfer.File(report,username,".txt")
         Encoding.Encoder.Encode(report)
         inp = input(Language.Translation.Translate_Language(
                         filename, "Default", "Continue", "None"))

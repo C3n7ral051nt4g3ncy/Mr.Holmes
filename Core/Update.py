@@ -26,13 +26,13 @@ class Downloader:
         while Attempts > 0:
             Pass = str(input(
                 Font.Color.BLUE + "\n[+]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Update", "Insert", "None").format(Attempts) + "\n\n" + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
-            while Pass == "":
+            while not Pass:
                 Pass = str(input(
                    Font.Color.BLUE + "\n[+]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Update", "Insert", "None").format(Attempts) + "\n\n" + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
             if Pass == Password:
                 Downloader.Update()
             else:
-                Attempts = Attempts - 1
+                Attempts -= 1
                 print(Font.Color.RED + "\n[!]" + Font.Color.WHITE +
                       Language.Translation.Translate_Language(filename, "Update", "Wrong", "None").format(Attempts))
         inp = input(Font.Color.RED + "\n[!]" + Font.Color.WHITE +

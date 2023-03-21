@@ -45,7 +45,7 @@ class Menu:
         elif folder == 6:
             fold = "Ports"
             secondFold = "False"
-        if folder == 1 or folder == 4:
+        if folder in {1, 4}:
             choice = int(input(Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                         filename, "Decoding", "Type", "None").format(username)  + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
             username= username.replace(" ","_")
@@ -58,16 +58,16 @@ class Menu:
         else:
             report = username
         if secondFold == "True":
-            Report = "GUI/Reports/{}/{}/{}".format(fold,username,report)
+            Report = f"GUI/Reports/{fold}/{username}/{report}"
         else:
-            Report = "GUI/Reports/{}/{}".format(fold,report)
+            Report = f"GUI/Reports/{fold}/{report}"
         option = int(input(Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                         filename, "Decoding", "Options", "None")+ Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
         if option == 1:
-            report = Report + ".txt" 
+            report = f"{Report}.txt"
             Encoding.Encoder.Encode(report)
         elif option == 2:
-            report = Report + ".mh" 
+            report = f"{Report}.mh"
             Encoding.Encoder.Decode(report)
         inp = input(Language.Translation.Translate_Language(
                         filename, "Default", "Continue", "None"))

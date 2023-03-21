@@ -23,8 +23,7 @@ class Phony:
 
     @staticmethod
     def Get_GeoLocation(zone, param1, param2, jsonfile, num, Type):
-        req = "https://nominatim.openstreetmap.org/search.php?q={}&format=json".format(
-            zone)
+        req = f"https://nominatim.openstreetmap.org/search.php?q={zone}&format=json"
         print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
               Language.Translation.Translate_Language(filename, "Phone", "Geo", "None").format(num))
         sleep(2)
@@ -40,18 +39,29 @@ class Phony:
                     "Longitude": Lon
                 }
             }
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "LATITUDE:" + Font.Color.GREEN + " {}".format(Lat))
+            print(
+                (
+                    f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}LATITUDE:{Font.Color.GREEN}"
+                    + f" {Lat}"
+                )
+            )
             sleep(2)
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "LONGITUDE:" + Font.Color.GREEN + " {}".format(Lon))
+            print(
+                (
+                    f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}LONGITUDE:{Font.Color.GREEN}"
+                    + f" {Lon}"
+                )
+            )
             sleep(2)
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "GOOGLE MAPS LINK: https://www.google.it/maps/place/{},{}".format(Lat, Lon))
-            datafile = open(jsonfile, "a", encoding="utf-8")
-            json.dump(data, datafile,
-                      ensure_ascii=False, indent=4)
-            datafile.close()
+            print(
+                (
+                    f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                    + f"GOOGLE MAPS LINK: https://www.google.it/maps/place/{Lat},{Lon}"
+                )
+            )
+            with open(jsonfile, "a", encoding="utf-8") as datafile:
+                json.dump(data, datafile,
+                          ensure_ascii=False, indent=4)
             Map.Creation.mapPhone(jsonfile, Lat, Lon, num, Type)
 
         except Exception as e:
@@ -63,7 +73,7 @@ class Phony:
         print(Font.Color.GREEN +
               "\n[+]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Phone", "Scan", "None").format(num))
         sleep(4)
-        FormattedPhoneNumber = "+" + num
+        FormattedPhoneNumber = f"+{num}"
         try:
             Phone = phonenumbers.parse(FormattedPhoneNumber, None)
         except Exception as e:
@@ -100,46 +110,91 @@ class Phony:
             location = geocoder.description_for_number(Phone, "en")
             carrierName = carrier.name_for_number(Phone, "en")
 
-            print(Font.Color.YELLOW + "\n[v]" + Font.Color.WHITE +
-                  "INTERNATIONAL NUMBER: {}".format(international))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "LOCAL NUMBER: {}".format(localNumber))
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "COUNTRY PREFIX: {}".format(numberCode))
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                  "COUNTRY CODE: {}".format(numberNation))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "COUNTRY: {}".format(nation))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "AREA/ZONE: {}".format(location))
-            print(Font.Color.YELLOW +
-                  "[v]" + Font.Color.WHITE + "CARRIER/ISP: {}".format(carrierName))
+            print(
+                (
+                    Font.Color.YELLOW
+                    + "\n[v]"
+                    + Font.Color.WHITE
+                    + f"INTERNATIONAL NUMBER: {international}"
+                )
+            )
+            print(
+                (
+                    Font.Color.YELLOW
+                    + "[v]"
+                    + Font.Color.WHITE
+                    + f"LOCAL NUMBER: {localNumber}"
+                )
+            )
+            print(
+                (
+                    f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                    + f"COUNTRY PREFIX: {numberCode}"
+                )
+            )
+            print(
+                (
+                    f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                    + f"COUNTRY CODE: {numberNation}"
+                )
+            )
+            print(
+                (
+                    Font.Color.YELLOW
+                    + "[v]"
+                    + Font.Color.WHITE
+                    + f"COUNTRY: {nation}"
+                )
+            )
+            print(
+                (
+                    Font.Color.YELLOW
+                    + "[v]"
+                    + Font.Color.WHITE
+                    + f"AREA/ZONE: {location}"
+                )
+            )
+            print(
+                (
+                    Font.Color.YELLOW
+                    + "[v]"
+                    + Font.Color.WHITE
+                    + f"CARRIER/ISP: {carrierName}"
+                )
+            )
             i = 1
             for timezoneResult in timezone.time_zones_for_number(Phone):
-                print(Font.Color.YELLOW +
-                      "[v]" + Font.Color.WHITE + "TIMEZONE N°{}: {}".format(i, timezoneResult))
+                print(
+                    (
+                        Font.Color.YELLOW
+                        + "[v]"
+                        + Font.Color.WHITE
+                        + f"TIMEZONE N°{i}: {timezoneResult}"
+                    )
+                )
                 i = i+1
             sleep(2)
             if location != "":
-                jsonfile = report.replace(
-                    num + ".txt", "Area_GeoLocation.json")
-                if " " in location:
-                    zone = location.split(" ", 1)[1]
-                else:
-                    zone = location
+                jsonfile = report.replace(f"{num}.txt", "Area_GeoLocation.json")
+                zone = location.split(" ", 1)[1] if " " in location else location
                 print(Font.Color.YELLOW + "\n[v]" + Font.Color.WHITE +
                       Language.Translation.Translate_Language(filename, "Phone", "Area", "None"))
                 Phony.Get_GeoLocation(zone, "Lat", "Long", jsonfile, num, Type)
             else:
-                print(Font.Color.RED + "[!]" + Font.Color.WHITE +
-                      Language.Translation.Translate_Language(filename, "Phone", "NoArea", "None"))
+                print(
+                    (
+                        f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Phone", "NoArea", "None"
+                        )
+                    )
+                )
             zone = timezoneResult.split("/", 1)[-1]
 
             if zone != "Unknown":
                 print(Font.Color.YELLOW + "\n[v]" + Font.Color.WHITE +
                       Language.Translation.Translate_Language(filename, "Phone", "Zone", "None"))
-                jsonfile = report.replace(
-                    num + ".txt", "Zone_GeoLocation.json")
+                jsonfile = report.replace(f"{num}.txt", "Zone_GeoLocation.json")
                 Phony.Get_GeoLocation(zone, "Lat", "Long", jsonfile, num, Type)
 
             else:
@@ -155,20 +210,17 @@ class Phony:
                 print(Font.Color.RED +
                       "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Phone", "NoExist", "None"))
 
-            f = open(report, "a")
-            f.write("INTERNATIONAL NUMBER: " + international + "\n")
-            f.write("LOCAL NUMBER: " + localNumber + "\n")
-            f.write("COUNTRY PREFIX: " + numberCode + "\n")
-            f.write("COUNTRY CODE: " + numberNation + "\n")
-            f.write("COUNTRY:" + nation + "\n")
-            f.write("AREA/ZONE" + location + "\n")
-            f.write("CARRIER/ISP: " + carrierName + "\n")
-            f.write("TIMEZONE: " + timezoneResult + "\n")
-            f.close()
-
+            with open(report, "a") as f:
+                f.write(f"INTERNATIONAL NUMBER: {international}" + "\n")
+                f.write(f"LOCAL NUMBER: {localNumber}" + "\n")
+                f.write(f"COUNTRY PREFIX: {numberCode}" + "\n")
+                f.write(f"COUNTRY CODE: {numberNation}" + "\n")
+                f.write(f"COUNTRY:{nation}" + "\n")
+                f.write(f"AREA/ZONE{location}" + "\n")
+                f.write(f"CARRIER/ISP: {carrierName}" + "\n")
+                f.write(f"TIMEZONE: {timezoneResult}" + "\n")
             if code == 0:
                 pass
             elif code == 1:
-                f = open("Temp/Phone/Code.txt", "w")
-                f.write(numberNation)
-                f.close()
+                with open("Temp/Phone/Code.txt", "w") as f:
+                    f.write(numberNation)

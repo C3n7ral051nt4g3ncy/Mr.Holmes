@@ -27,15 +27,13 @@ class Downloader:
     def InsertToFile(json_file, Tagged, Link, Type):
         if os.path.exists(json_file):
             exist = "True"
-            pass
         else:
-            f = open(json_file, "w")
-            f.write('''{
+            with open(json_file, "w") as f:
+                f.write('''{
                         "List":[
 
                         ]
                     }''')
-            f.close()
             exist = "False"
         opener = open(json_file, "r")
         reader = json.load(opener)
@@ -44,31 +42,20 @@ class Downloader:
             if exist == "True":
                 for Data in reader:
                     ParamIn = reader[Data][v]["Name"]
-                    if ParamIn == Parameter:
-                        Ok = "False"
-                    else:
-                        Ok = "True"
+                    Ok = "False" if ParamIn == Parameter else "True"
                     v = v+1
             else:
                 Ok = "True"
             if Ok == "True":
                 if Type == "TaggedLink":
-                    data = {
-                        "Name": "None",
-                        "Link": "{}".format(Parameter)
-                    }
+                    data = {"Name": "None", "Link": f"{Parameter}"}
                 else:
-                    data = {
-                        "Name": "{}".format(Parameter),
-                        "Link": "{}{}".format(Link, Parameter)
-                    }
+                    data = {"Name": f"{Parameter}", "Link": f"{Link}{Parameter}"}
                 with open(json_file, 'r+') as file:
                     file_data = json.load(file)
                     file_data["List"].append(data)
                     file.seek(0)
                     json.dump(file_data, file, indent=4)
-            else:
-                pass
 
     @staticmethod
     def Instagram(url, username, http_proxy, Posts, PostLocations, PostGpsCoordinates, Opt, name2):

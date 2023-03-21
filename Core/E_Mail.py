@@ -36,20 +36,18 @@ class Mail_search:
 
     @staticmethod
     def Google_dork(username):
-        report = "GUI/Reports/E-Mail/Dorks/{}_dorks.txt".format(username)
+        report = f"GUI/Reports/E-Mail/Dorks/{username}_dorks.txt"
         nomefile = "Site_lists/E-Mail/Google_dorks.txt"
         if os.path.isfile(report):
             os.remove(report)
             print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                 filename, "Dorks", "Remove", "None").format(username))
-        else:
-            pass
         Type = "GOOGLE"
         Dorks.Search.dork(username, report, nomefile, Type)
 
     @staticmethod
     def Yandex_dork(username):
-        report = "GUI/Reports/E-Mail/Dorks/{}_dorks.txt".format(username)
+        report = f"GUI/Reports/E-Mail/Dorks/{username}_dorks.txt"
         nomefile = "Site_lists/E-Mail/Yandex_dorks.txt"
         Type = "YANDEX"
         Dorks.Search.dork(username, report, nomefile, Type)
@@ -61,16 +59,21 @@ class Mail_search:
         sleep(2)
         Key = Api.Check.WhoIs()
         Key
-        RecList = []
         if Key == "None":
-            print(Font.Color.RED + "[!]" + Font.Color.WHITE + "API-KEY NOT FOUND")
+            print(f"{Font.Color.RED}[!]{Font.Color.WHITE}API-KEY NOT FOUND")
         else:
+            RecList = []
             try:
-                print(Font.Color.GREEN + "[+]" +
-                      Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Website", "Parameters", "KeyFound"))
+                print(
+                    (
+                        f"{Font.Color.GREEN}[+]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Website", "Parameters", "KeyFound"
+                        )
+                    )
+                )
                 Key2 = str(Key)
-                source = "https://emailverification.whoisxmlapi.com/api/v2?apiKey={}&emailAddress={}".format(
-                    Key2, username)
+                source = f"https://emailverification.whoisxmlapi.com/api/v2?apiKey={Key2}&emailAddress={username}"
                 access = urllib.request.urlopen(source)
                 reader = access.read()
                 final = json.loads(reader)
@@ -102,17 +105,13 @@ class Mail_search:
                 print(Font.Color.GREEN +
                       "\n[+]" + Font.Color.WHITE + "INFORMATIONS FOUND:")
                 sleep(3)
-                print(Font.Color.YELLOW + "[v]" +
-                      Font.Color.WHITE + "NAME: " + name)
-                print(Font.Color.YELLOW + "[v]" +
-                      Font.Color.WHITE + "DOMAIN: " + domain)
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}NAME: {name}")
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}DOMAIN: {domain}")
                 print(Font.Color.YELLOW +
                       "[v]" + Font.Color.WHITE + "EMAIL: " + completemail)
                 if SmtpOk:
-                    print(Font.Color.YELLOW + "[v]" +
-                        Font.Color.WHITE + "SMTP: " + smtp)
-                print(Font.Color.YELLOW + "[v]" +
-                      Font.Color.WHITE + "DNS: " + dns)
+                    print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}SMTP: {smtp}")
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}DNS: {dns}")
                 print(Font.Color.YELLOW +
                       "[v]" + Font.Color.WHITE + "FREE-DOMAIN: " + freeDomain)
                 print(Font.Color.YELLOW +
@@ -125,23 +124,22 @@ class Mail_search:
                         "\n[+]" + Font.Color.WHITE + "FOUND MX-RECORDS(DNS):")
                     i = 1
                     for record in RecList:
-                        print(
-                            Font.Color.YELLOW + "[v]" + Font.Color.WHITE + "RECORD N {}: ".format(i) + record)
+                        print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}" + f"RECORD N {i}: " + record)
                         i = i+1
                 sleep(2)
                 f = open(report, "a")
                 f.write("\n\nEMAIL DATA:" + "\r\n")
-                f.write("NAME: " + name + "\r\n")
-                f.write("DOMAIN: " + domain + "\r\n")
-                f.write("EMAIL: " + completemail + "\r\n")
-                f.write("SMTP: " + smtp + "\r\n")
-                f.write("FREE-DOMAIN: " + freeDomain + "\r\n")
-                f.write("TEMPORARY: " + Temporary + "\r\n")
-                f.write("CATCH-ALL: " + CatchAll + "\r\n")
+                f.write(f"NAME: {name}" + "\r\n")
+                f.write(f"DOMAIN: {domain}" + "\r\n")
+                f.write(f"EMAIL: {completemail}" + "\r\n")
+                f.write(f"SMTP: {smtp}" + "\r\n")
+                f.write(f"FREE-DOMAIN: {freeDomain}" + "\r\n")
+                f.write(f"TEMPORARY: {Temporary}" + "\r\n")
+                f.write(f"CATCH-ALL: {CatchAll}" + "\r\n")
                 f.write("\n\nFOUND MX-RECORDS(DNS)" + "\r\n")
                 i = 1
                 for record in RecList:
-                    f.write("RECORD N {}: ".format(i) + record + "\r\n")
+                    f.write(f"RECORD N {i}: {record}" + "\r\n")
                     i = i+1
             except Exception as e:
                 pass
@@ -160,10 +158,10 @@ class Mail_search:
                     print(
                         Font.Color.GREEN + "\n[+]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Email", "Link", "None").format(name))
                     sleep(2)
-                    print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + url)
+                    print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{url}")
                     f = open(report, "a")
-                    f.write("\nGENERATING {} LINK".format(name))
-                    f.write("\n{}".format(url))
+                    f.write(f"\nGENERATING {name} LINK")
+                    f.write(f"\n{url}")
                 f.close()
             f.close()
             os.remove(nomefile)
@@ -176,15 +174,14 @@ class Mail_search:
         now = datetime.now()
         dataformat = DateFormat.Get.Format()
         dt_string = now.strftime(dataformat)
-        Date = "Date: " + str(dt_string)
-        report = "GUI/Reports/E-Mail/" + username + ".txt"
+        Date = f"Date: {str(dt_string)}"
+        report = f"GUI/Reports/E-Mail/{username}.txt"
         if os.path.isfile(report):
             os.remove(report)
             print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Default", "Delete", "None").format(username))
-        f = open(report, "w")
-        f.write("SCANNING EXECUTED ON:\n" + Date + "\n")
-        f.close()
+        with open(report, "w") as f:
+            f.write("SCANNING EXECUTED ON:\n" + Date + "\n")
         mail.Validator.Mail(username, report)
         Mail_search.searcher(username, report, Mode)
         Mail_search.Lookup(username, report)
@@ -193,14 +190,11 @@ class Mail_search:
         if choice == 1:
             Mail_search.Google_dork(username)
             Mail_search.Yandex_dork(username)
-        else:
-            pass
         print(Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Report", "None") +
               os.getcwd() + "/" + report)
-        f = open(report, "a")
-        f.write(Language.Translation.Translate_Language(
-            filename, "Report", "Default", "By"))
-        f.close()
+        with open(report, "a") as f:
+            f.write(Language.Translation.Translate_Language(
+                filename, "Report", "Default", "By"))
         print(Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Report", "None") +
               report)
         Notification.Notifier.Start(Mode)

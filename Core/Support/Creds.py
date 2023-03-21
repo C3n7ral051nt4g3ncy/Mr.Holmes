@@ -45,7 +45,7 @@ class Sender:
                     message = MIMEMultipart()
                     message['From'] = "MR.HOLMES:"
                     message["To"] = destination
-                    message["Subject"] = "RESULTS FOR: " + username
+                    message["Subject"] = f"RESULTS FOR: {username}"
                     msg = "Query results:"
                     message.attach(MIMEText(msg, "plain"))
                     filename = report
@@ -53,8 +53,7 @@ class Sender:
                     file = MIMEBase("application", "octet-stream")
                     file.set_payload(attachment.read())
                     encoders.encode_base64(file)
-                    file.add_header("Content-Disposition",
-                                    "attachment;filename=" + filename)
+                    file.add_header("Content-Disposition", f"attachment;filename={filename}")
                     message.attach(file)
                     try:
                         server = smtplib.SMTP(host2, port2)
@@ -69,10 +68,6 @@ class Sender:
                     except smtplib.SMTPException:
                         inp = input(Font.Color.RED + "\n[!]" + Font.Color.WHITE +
                                     Language.Translation.Translate_Language(LangFile, "RecapEmail", "NotSent", "None"))
-                elif mail == 2:
-                    pass
-                    #inp = input(Language.Translation.Translate_Language(
-                    #    LangFile, "Default", "Continue", "None"))
             else:
                 print(Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                     LangFile, "RecapEmail", "NotValid", "None"))

@@ -40,99 +40,84 @@ class Phone_search:
 
     @staticmethod
     def Google_dork(username):
-        report = "GUI/Reports/Phone/Dorks/{}_dorks.txt".format(username)
+        report = f"GUI/Reports/Phone/Dorks/{username}_dorks.txt"
         nomefile = "Site_lists/Phone/Google_dorks.txt"
         fingerprints = "Site_lists/Phone/Fingerprints.txt"
         if os.path.isfile(report):
             os.remove(report)
             print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Dorks", "Remove", "None").format(username))
-        else:
-            pass
         Type = "GOOGLE"
         Dorks.Search.dork(username, report, nomefile, Type)
-        f = open(report, "a")
-        f.write(Language.Translation.Translate_Language(
-            filename, "Report", "Phone", "FingerPrints"))
-        f.close()
+        with open(report, "a") as f:
+            f.write(Language.Translation.Translate_Language(
+                filename, "Report", "Phone", "FingerPrints"))
         print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
               Language.Translation.Translate_Language(filename, "Phone", "FingerPrints", "None"))
         sleep(3)
-        f = open(fingerprints, "r")
-        for sites in f:
-            site = sites.rstrip("\n")
-            site = site.replace("{}", username)
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + site)
-            f = open(report, "a")
-            f.write(site + "\n")
-            sleep(2)
-        f.close()
+        with open(fingerprints, "r") as f:
+            for sites in f:
+                site = sites.rstrip("\n")
+                site = site.replace("{}", username)
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{site}")
+                f = open(report, "a")
+                f.write(site + "\n")
+                sleep(2)
         f.close()
 
     @staticmethod
     def Yandex_dork(username):
-        report = "GUI/Reports/Phone/Dorks/{}_dorks.txt".format(username)
+        report = f"GUI/Reports/Phone/Dorks/{username}_dorks.txt"
         nomefile = "Site_lists/Phone/Yandex_dorks.txt"
         fingerprints = "Site_lists/Phone/Yandex_Fingerprints.txt"
         Type = "YANDEX"
         Dorks.Search.dork(username, report, nomefile, Type)
-        f = open(report, "a")
-        f.write(Language.Translation.Translate_Language(
-            filename, "Report", "Phone", "FingerPrints"))
-        f.close()
+        with open(report, "a") as f:
+            f.write(Language.Translation.Translate_Language(
+                filename, "Report", "Phone", "FingerPrints"))
         print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
               Language.Translation.Translate_Language(filename, "Phone", "FingerPrints", "None"))
         sleep(3)
-        f = open(fingerprints, "r")
-        for sites in f:
-            site = sites.rstrip("\n")
-            site = site.replace("{}", username)
-            print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + site)
-            f = open(report, "a")
-            f.write(site + "\n")
-            sleep(2)
-        f.close()
+        with open(fingerprints, "r") as f:
+            for sites in f:
+                site = sites.rstrip("\n")
+                site = site.replace("{}", username)
+                print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{site}")
+                f = open(report, "a")
+                f.write(site + "\n")
+                sleep(2)
         f.close()
 
     @staticmethod
     def lookup(username, report):
-        f = open(report, "a")
-        f.write("\nPHONE NUMBER FOUND ON:\n")
-        f.close()
-        f = open("Temp/Phone/Code.txt", "r", newline=None)
-        nation = f.read().rstrip("\n")
-        f.close()
-        if nation == "US":
-            data = "Site_lists/Phone/Lookup/USA_phone.json"
-            country = "UNITED-STATES"
-            token = True
-        elif nation == "IT":
-            data = "Site_lists/Phone/Lookup/ITA_phone.json"
-            country = "ITALY"
-            token = True
+        with open(report, "a") as f:
+            f.write("\nPHONE NUMBER FOUND ON:\n")
+        with open("Temp/Phone/Code.txt", "r", newline=None) as f:
+            nation = f.read().rstrip("\n")
+        if nation == "CH":
+            data = "Site_lists/Phone/Lookup/SWIS_phone.json"
+            country = "SWITZERLAND"
         elif nation == "DE":
             data = "Site_lists/Phone/Lookup/DEU_phone.json"
             country = "GERMANY"
-            token = True
         elif nation == "FR":
             data = "Site_lists/Phone/Lookup/FRA_phone.json"
             country = "FRANCE"
-            token = True
+        elif nation == "IT":
+            data = "Site_lists/Phone/Lookup/ITA_phone.json"
+            country = "ITALY"
         elif nation == "RO":
             data = "Site_lists/Phone/Lookup/ROU_phone.json"
             country = "ROMANIA"
-            token = True
-        elif nation == "CH":
-            data = "Site_lists/Phone/Lookup/SWIS_phone.json"
-            country = "SWITZERLAND"
-            token = True
+        elif nation == "US":
+            data = "Site_lists/Phone/Lookup/USA_phone.json"
+            country = "UNITED-STATES"
         else:
-            token = True
             data = "Site_lists/Phone/Lookup/Undefined.json"
             country = "UNDEFINED"
+        token = True
         number = str(username)
         os.remove("Temp/Phone/Code.txt")
-        subject = "PHONE-NUMBER"
         print(Font.Color.YELLOW + "\n[+]" + Font.Color.WHITE +
               Language.Translation.Translate_Language(filename, "Phone", "Country", "None").format(country))
         if token:
@@ -144,7 +129,7 @@ class Phone_search:
             if sc == 1:
                 http_proxy = Proxies.proxy.final_proxis
                 http_proxy2 = Proxies.proxy.choice3
-                source = "http://ip-api.com/json/" + http_proxy2
+                source = f"http://ip-api.com/json/{http_proxy2}"
                 access = urllib.request.urlopen(source)
                 content = access.read()
                 final = json.loads(content)
@@ -157,9 +142,7 @@ class Phone_search:
             print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Default", "Proxy", "None").format(http_proxy2))
             if identity != "None":
-                print(Font.Color.GREEN + "[+]" + Font.Color.WHITE + identity)
-            else:
-                pass
+                print(f"{Font.Color.GREEN}[+]{Font.Color.WHITE}{identity}")
             folder = "Phone"
             Logs.Log.Checker(username, folder)
             successfull = []
@@ -167,12 +150,11 @@ class Phone_search:
             ScraperSites = []
             Tags = []
             Writable = True
-            json_file = "GUI/Reports/Phone/{}/{}.json".format(
-                username, username)
-            json_file2 = "GUI/Reports/Phone/{}/{}.json".format(
-                username, "Name")
+            json_file = f"GUI/Reports/Phone/{username}/{username}.json"
+            json_file2 = f"GUI/Reports/Phone/{username}/Name.json"
             f = open(data,)
             data = json.loads(f.read())
+            subject = "PHONE-NUMBER"
             for sites in data:
                 for data1 in sites:
                     name = sites[data1]["name"]
@@ -207,7 +189,7 @@ class Phone_search:
 
             if len(successfull):
                 for names in successfull:
-                    print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + names)
+                    print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{names}")
             else:
                 print(Font.Color.RED + "\n[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                     filename, "Phone", "NotFound", "None"))
@@ -222,8 +204,6 @@ class Phone_search:
         if dork == 1:
             Phone_search.Google_dork(username)
             Phone_search.Yandex_dork(username)
-        else:
-            pass
 
     @staticmethod
     def searcher(username, Mode):

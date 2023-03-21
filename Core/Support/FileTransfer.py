@@ -19,39 +19,44 @@ class Transfer:
     @staticmethod
     def File(report,name,extension):
         if os.path.exists(report):
-            new = "Transfer/{}{}".format(name,extension)
+            new = f"Transfer/{name}{extension}"
             shutil.copyfile(report,new)
             temp = "Transfer/file.txt"
-            f = open(temp,"w")
-            f.write(name + extension)
-            f.close()
+            with open(temp,"w") as f:
+                f.write(name + extension)
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(('8.8.8.8', 1))
             host = s.getsockname()[0]
-            if (os.name != "nt"):
-                if os.getuid() == 0:
-                    os.system("php -S" + host +
-                                ":5000 -t Transfer >/dev/null 2>&1 &")
-                    Req = True
-                else:
-                    Req = False
-        
-            else:
-                os.system("START /B php -S " + host +
-                            ":5000 -t Transfer 2>NUL >NUL")
+            if os.name == "nt":
+                os.system(f"START /B php -S {host}:5000 -t Transfer 2>NUL >NUL")
                 Req = True
+
+            elif os.getuid() == 0:
+                os.system(f"php -S{host}:5000 -t Transfer >/dev/null 2>&1 &")
+                Req = True
+            else:
+                Req = False
 
             link = host
             if Req:
                 print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                         filename, "Transfer", "Generation", "None"))
                 sleep(3)
-                url = pyqrcode.create("http://{}:5000".format(link),version=4)
+                url = pyqrcode.create(f"http://{link}:5000", version=4)
                 url.eps('QRCodes/QR.png', scale=8)
                 print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE + Language.Translation.Translate_Language(
                         filename, "Transfer", "Location", "None"))
-                print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
-                    Language.Translation.Translate_Language(filename, "Database", "Link", "None").replace("DATABASE","FILE-TRANSFER") + "http://{}:5000".format(link))
+                print(
+                    (
+                        Font.Color.BLUE
+                        + "\n[I]"
+                        + Font.Color.WHITE
+                        + Language.Translation.Translate_Language(
+                            filename, "Database", "Link", "None"
+                        ).replace("DATABASE", "FILE-TRANSFER")
+                        + f"http://{link}:5000"
+                    )
+                )
                 inp = input(Font.Color.WHITE + Language.Translation.Translate_Language(
                     filename, "Database", "Quit", "None"))
                 os.remove(new)
@@ -65,7 +70,7 @@ class Transfer:
                     Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Database", "Stop", "None").replace("DATABASE","FILE-TRANSFER"))
                 sleep(2)
             else:
-                 print(Font.Color.RED + "\n[!]" + Font.Color.WHITE +
-                  Language.Translation.Translate_Language(filename, "Database", "NoRoot", "None").replace("DATABASE","FILE-TRANSFER"))
+                print(Font.Color.RED + "\n[!]" + Font.Color.WHITE +
+                 Language.Translation.Translate_Language(filename, "Database", "NoRoot", "None").replace("DATABASE","FILE-TRANSFER"))
         else:
             print(Font.Color.RED + "\n[!]" + Font.Color.WHITE + "FILE DOES NOT EXIST")

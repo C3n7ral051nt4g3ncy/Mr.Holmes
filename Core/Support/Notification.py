@@ -9,10 +9,5 @@ class Notifier:
 
     @staticmethod
     def Start(Mode):
-        if Mode == "Desktop":
-            if os.name == "nt":
-                pass
-            else:
-                os.system("java Core/Support/Notification/Notification.java")
-        else:
-            pass
+        if Mode == "Desktop" and os.name != "nt":
+            os.system("java Core/Support/Notification/Notification.java")

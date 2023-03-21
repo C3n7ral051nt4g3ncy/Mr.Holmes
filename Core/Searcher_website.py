@@ -38,10 +38,9 @@ class Web:
 
     @staticmethod
     def Ports(username, report):
-        f = open(report, "a")
-        f.write(Language.Translation.Translate_Language(
-            filename, "Report", "Website", "Ports"))
-        f.close()
+        with open(report, "a") as f:
+            f.write(Language.Translation.Translate_Language(
+                filename, "Report", "Website", "Ports"))
         Scanner.Port.Scan(username, report)
         choice = int(input(
             Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Website", "Questions", "Traceroute") + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
@@ -68,7 +67,7 @@ class Web:
         if sc == 1:
             http_proxy = Proxies.proxy.final_proxis
             http_proxy2 = Proxies.proxy.choice3
-            source = "http://ip-api.com/json/" + http_proxy2
+            source = f"http://ip-api.com/json/{http_proxy2}"
             access = urllib.request.urlopen(source)
             content = access.read()
             final = json.loads(content)
@@ -81,21 +80,18 @@ class Web:
         print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
               Language.Translation.Translate_Language(filename, "Default", "Proxy", "None") .format(http_proxy2))
         if identity != "None":
-            print(Font.Color.GREEN + "[+]" + Font.Color.WHITE + identity)
-        else:
-            pass
+            print(f"{Font.Color.GREEN}[+]{Font.Color.WHITE}{identity}")
         folder = "Websites"
         Logs.Log.Checker(username, folder)
         successfull = []
         successfullName = []
         ScraperSites = []
         Writable = False
-        json_file = "GUI/Reports/Websites/{}/{}.json".format(
-            username, username)
-        json_file2 = "GUI/Reports/Websites/{}/{}.json".format(
-            username, "Name")
+        json_file = f"GUI/Reports/Websites/{username}/{username}.json"
+        json_file2 = f"GUI/Reports/Websites/{username}/Name.json"
         f = open(data,)
         data = json.loads(f.read())
+        consultFile = "Site_lists/Websites/Consult.json"
         for sites in data:
             for data1 in sites:
                 name = sites[data1]["name"]
@@ -104,8 +100,14 @@ class Web:
                 error = sites[data1]["Error"]
                 main = sites[data1]["main"]
                 is_scrapable = sites[data1]["Scrapable"]
-                print(Font.Color.GREEN +
-                      "\n[+]" + Font.Color.WHITE + "TRYING ON: {} ".format(name))
+                print(
+                    (
+                        Font.Color.GREEN
+                        + "\n[+]"
+                        + Font.Color.WHITE
+                        + f"TRYING ON: {name} "
+                    )
+                )
                 try:
                     Requests_Search.Search.search(error, report, site1, site2, http_proxy, sites, data1, username,
                                                   subject, successfull, name, successfullName, is_scrapable, ScraperSites, Writable, main, json_file, json_file2)
@@ -125,17 +127,15 @@ class Web:
 
             if len(successfull):
                 for names in successfull:
-                    print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + names)
+                    print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{names}")
                 print(Font.Color.RED + "\n[!]" + Font.Color.WHITE +
                       Language.Translation.Translate_Language(filename, "Website", "Default", "Unsecure").format(username))
             else:
                 print(Font.Color.YELLOW + "\n[v]" + Font.Color.WHITE +
                       Language.Translation.Translate_Language(filename, "Website", "Default", "Secure").format(username))
-                f = open(report, "a")
-                f.write(Language.Translation.Translate_Language(
-                    filename, "Report", "Website", "Safe"))
-                f.close()
-            consultFile = "Site_lists/Websites/Consult.json"
+                with open(report, "a") as f:
+                    f.write(Language.Translation.Translate_Language(
+                        filename, "Report", "Website", "Safe"))
             print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Website", "Default", "Info"))
             f = open(consultFile,)
@@ -143,15 +143,14 @@ class Web:
             for sites in data:
                 for data1 in sites:
                     site1 = sites[data1]["url"].replace("{}", username)
-                    print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + site1)
-            f = open(report, "a")
-            f.write(Language.Translation.Translate_Language(
-                filename, "Report", "Website", "Info"))
-            for sites in data:
-                for data1 in sites:
-                    site1 = sites[data1]["url"].replace("{}", username)
-                    f.write(site1+"\n")
-            f.close()
+                    print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{site1}")
+            with open(report, "a") as f:
+                f.write(Language.Translation.Translate_Language(
+                    filename, "Report", "Website", "Info"))
+                for sites in data:
+                    for data1 in sites:
+                        site1 = sites[data1]["url"].replace("{}", username)
+                        f.write(site1+"\n")
             choice = int(input(
                 Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Website", "Questions", "Robots") + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
             if choice == 1:

@@ -18,22 +18,27 @@ class Main:
     def Controll_Display():
         Interface_file = "Display/Display.txt"
         if os.path.isfile(Interface_file):
-            d = open(Interface_file,"r",newline=None)
-            conf = d.read().strip("\n")
-            d.close()
-            if conf == "Desktop":
-                pass
-            elif conf == "Mobile":
-                pass
-            else:
-                print(Font.Color.RED + "[!]" + Font.Color.WHITE +  Language.Translation.Translate_Language(filename, "Default", "DisplayError", "None"))
+            with open(Interface_file,"r",newline=None) as d:
+                conf = d.read().strip("\n")
+            if conf not in ["Desktop", "Mobile"]:
+                print(
+                    f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                    + Language.Translation.Translate_Language(
+                        filename, "Default", "DisplayError", "None"
+                    )
+                )
                 exit()
         else:
-             print(Font.Color.RED + "[!]" + Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "NoDisplay", "None") .format(Interface_file))
+            print(
+                f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                + Language.Translation.Translate_Language(
+                    filename, "Default", "NoDisplay", "None"
+                ).format(Interface_file)
+            )
         return conf
 
-    def Menu(Mode):
-        Menu.Main.main(Mode)
+    def Menu(self):
+        Menu.Main.main(self)
 
 if __name__ == "__main__":
     Mode = Main.Controll_Display()

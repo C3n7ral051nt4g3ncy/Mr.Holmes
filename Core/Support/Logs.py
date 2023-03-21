@@ -22,7 +22,7 @@ class Log:
         Parser.read(nomefile)
         Conf_Log = Parser["Settings"]["Show_Logs"]
         if Conf_Log == "True":
-            file_Log = "Logs/{}/Session_{}.log".format(folder, username)
+            file_Log = f"Logs/{folder}/Session_{username}.log"
             try:
                 if (os.name != "nt"):
                     logging.basicConfig(filename=file_Log, filemode="w",

@@ -32,20 +32,18 @@ class info:
 
     @staticmethod
     def Google_dork(username):
-        report = "GUI/Reports/People/Dorks/{}_Dorks.txt".format(username)
+        report = f"GUI/Reports/People/Dorks/{username}_Dorks.txt"
         nomefile = "Site_lists/Username/Google_dorks.txt"
         if os.path.isfile(report):
             os.remove(report)
             print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Dorks", "Remove", "None").format(username))
-        else:
-            pass
         Type = "GOOGLE"
         Dorks.Search.dork(username, report, nomefile, Type)
 
     @staticmethod
     def Yandex_dork(username):
-        report = "GUI/Reports/People/Dorks/{}_Dorks.txt".format(username)
+        report = f"GUI/Reports/People/Dorks/{username}_Dorks.txt"
         nomefile = "Site_lists/Username/Yandex_dorks.txt"
         Type = "YANDEX"
         Dorks.Search.dork(username, report, nomefile, Type)
@@ -59,25 +57,25 @@ class info:
     @staticmethod
     def Search(username, Mode):
         username2 = username.replace(" ", "_")
-        folder = "GUI/Reports/People/" + username2 + "/"
+        folder = f"GUI/Reports/People/{username2}/"
         report = folder + username2 + ".txt"
         report2 = folder + username2 + ".mh"
-        link1 = folder + "Insta_Link.json"
-        link2 = folder + "Twitter_Link.json"
-        link3 = folder + "TikTok_Link.json"
-        Recap1 = folder + "Recap.txt"
-        Recap2 = folder + "Recap.mh"
-        imagefold = "GUI/Reports/People/" + username2 + "/Profile_pics"
+        link1 = f"{folder}Insta_Link.json"
+        link2 = f"{folder}Twitter_Link.json"
+        link3 = f"{folder}TikTok_Link.json"
+        Recap1 = f"{folder}Recap.txt"
+        Recap2 = f"{folder}Recap.mh"
         InstagramParams = []
         TwitterParams = []
         PostLocations = []
         PostGpsCoordinates = []
+        imagefold = f"GUI/Reports/People/{username2}/Profile_pics"
         info.Banner(Mode)
         subject = "PERSON"
         now = datetime.now()
         dataformat = DateFormat.Get.Format()
         dt_string = now.strftime(dataformat)
-        Date = "Date: " + str(dt_string)
+        Date = f"Date: {str(dt_string)}"
         if os.path.exists(report):
             os.remove(report)
             if os.path.exists(Recap1):
@@ -113,7 +111,7 @@ class info:
         if choice == 1:
             http_proxy = Proxies.proxy.final_proxis
             http_proxy2 = Proxies.proxy.choice3
-            source = "http://ip-api.com/json/" + http_proxy2
+            source = f"http://ip-api.com/json/{http_proxy2}"
             access = urllib.request.urlopen(source)
             content = access.read()
             final = json.loads(content)
@@ -127,40 +125,32 @@ class info:
         print(Font.Color.GREEN + "\n[+]" + Font.Color.WHITE +
               Language.Translation.Translate_Language(filename, "Default", "Proxy", "None").format(http_proxy2))
         if identity != "None":
-            print(Font.Color.GREEN +
-                  "[+]" + Font.Color.WHITE + identity)
-        else:
-            pass
+            print(f"{Font.Color.GREEN}[+]{Font.Color.WHITE}{identity}")
         if os.path.isfile(report):
             os.remove(report)
             print(Font.Color.BLUE + "\n[I]" + Font.Color.WHITE +
                   Language.Translation.Translate_Language(filename, "Default", "Delete", "None").format(username))
         folder = "People"
         Logs.Log.Checker(username, folder)
-        f = open(report, "a")
-        f.write(Language.Translation.Translate_Language(
-            filename, "Report", "Default", "Date").format(Date) + "\r\n")
-        f.close()
+        with open(report, "a") as f:
+            f.write(Language.Translation.Translate_Language(
+                filename, "Report", "Default", "Date").format(Date) + "\r\n")
         Scraper.Search.Instagram(report, username, http_proxy, InstagramParams,
                                  PostLocations, PostGpsCoordinates, imagefold, username2)
         Scraper.Search.Twitter(report, username, http_proxy, TwitterParams,
                                imagefold, username2)
         Scraper.Search.TikTok(
             report, username, http_proxy, imagefold, username2)
-        if PostGpsCoordinates == [] and PostLocations == []:
-            pass
-        else:
+        if PostGpsCoordinates != [] or PostLocations != []:
             n = 0
             print(Font.Color.GREEN +
                   "\n[+]" + Font.Color.WHITE + "GETTING LATEST POST GEOLOCATION")
-            f = open(report, "a")
-            f.write("\nGETTING LATEST POST GEOLOCATION:\n")
-            for Locations in PostGpsCoordinates:
-                print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE + Locations)
-                f.write(Locations + "\n")
-                n = n + 1
-            f.close()
-        
+            with open(report, "a") as f:
+                f.write("\nGETTING LATEST POST GEOLOCATION:\n")
+                for Locations in PostGpsCoordinates:
+                    print(f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}{Locations}")
+                    f.write(Locations + "\n")
+                    n = n + 1
         Recaps = int(input(Font.Color.BLUE + "\n[?]" + Font.Color.WHITE + Language.Translation.Translate_Language(
             filename, "Default", "Hypo", "None") + Font.Color.GREEN + "[#MR.HOLMES#]" + Font.Color.WHITE + "-->"))
         if Recaps == 1:

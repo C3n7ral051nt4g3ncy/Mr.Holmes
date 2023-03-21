@@ -24,45 +24,99 @@ class Search:
         f = open(report, "a")
         if error == "Status-Code":
             if searcher.status_code == 200:
-                print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                      Language.Translation.Translate_Language(filename, "Default", "Found", "None").format(subject, username))
-                print(Font.Color.YELLOW +
-                      "[v]" + Font.Color.WHITE + "LINK: {}".format(site1))
-                
+                print(
+                    (
+                        f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Default", "Found", "None"
+                        ).format(subject, username)
+                    )
+                )
+                print(
+                    (
+                        Font.Color.YELLOW
+                        + "[v]"
+                        + Font.Color.WHITE
+                        + f"LINK: {site1}"
+                    )
+                )
+
                 if Writable == True:
                     f.write(site1 + "\r\n")
-                    print(Font.Color.BLUE +
-                      "[I]" + Font.Color.WHITE + "TAGS:[{}]".format(Font.Color.GREEN + Tag + Font.Color.WHITE))
+                    print(
+                        (
+                            Font.Color.BLUE
+                            + "[I]"
+                            + Font.Color.WHITE
+                            + f"TAGS:[{Font.Color.GREEN + Tag + Font.Color.WHITE}]"
+                        )
+                    )
                     Tags.append(Tag)
                 else:
-                    f.write("{}:{}\r\n".format(name, main))
+                    f.write(f"{name}:{main}\r\n")
                 successfull.append(site1)
                 successfullName.append(name)
                 if is_scrapable == "True":
                     ScraperSites.append(name)
-            elif searcher.status_code == 404 or searcher.status_code == 204:
-                print(Font.Color.RED + "[!]" + Font.Color.WHITE +
-                      Language.Translation.Translate_Language(filename, "Default", "NotFound", "None").format(subject, username))
+            elif searcher.status_code in [404, 204]:
+                print(
+                    (
+                        f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Default", "NotFound", "None"
+                        ).format(subject, username)
+                    )
+                )
             else:
-                print(Font.Color.BLUE + "[N]" +
-                      Font.Color.WHITE + Language.Translation.Translate_Language(filename, "Default", "Connection_Error2", "None"))
+                print(
+                    (
+                        f"{Font.Color.BLUE}[N]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Default", "Connection_Error2", "None"
+                        )
+                    )
+                )
         elif error == "Message":
             text = sites[data1]["text"]
             if text in searcher.text:
-                print(Font.Color.RED + "[!]" + Font.Color.WHITE +
-                      Language.Translation.Translate_Language(filename, "Default", "NotFound", "None").format(subject, username))
+                print(
+                    (
+                        f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Default", "NotFound", "None"
+                        ).format(subject, username)
+                    )
+                )
             else:
-                print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                      Language.Translation.Translate_Language(filename, "Default", "Found", "None").format(subject, username))
-                print(Font.Color.YELLOW +
-                      "[v]" + Font.Color.WHITE + "LINK: {}".format(site1))
+                print(
+                    (
+                        f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Default", "Found", "None"
+                        ).format(subject, username)
+                    )
+                )
+                print(
+                    (
+                        Font.Color.YELLOW
+                        + "[v]"
+                        + Font.Color.WHITE
+                        + f"LINK: {site1}"
+                    )
+                )
                 if Writable == True:
                     f.write(site1 + "\r\n")
-                    print(Font.Color.BLUE +
-                      "[I]" + Font.Color.WHITE + "TAGS:[{}]".format((Font.Color.GREEN + Tag + Font.Color.WHITE)))
+                    print(
+                        (
+                            Font.Color.BLUE
+                            + "[I]"
+                            + Font.Color.WHITE
+                            + f"TAGS:[{Font.Color.GREEN + Tag + Font.Color.WHITE}]"
+                        )
+                    )
                     Tags.append(Tag)
                 else:
-                    f.write("{}:{}\r\n".format(name, main))
+                    f.write(f"{name}:{main}\r\n")
                 successfull.append(site1)
                 successfullName.append(name)
                 if is_scrapable == "True":
@@ -71,45 +125,63 @@ class Search:
         elif error == "Response-Url":
             response = sites[data1]["response"]
             if searcher.url == response:
-                print(Font.Color.RED + "[!]" + Font.Color.WHITE +
-                      Language.Translation.Translate_Language(filename, "Default", "NotFound", "None").format(subject, username))
+                print(
+                    (
+                        f"{Font.Color.RED}[!]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Default", "NotFound", "None"
+                        ).format(subject, username)
+                    )
+                )
             else:
-                print(Font.Color.YELLOW + "[v]" + Font.Color.WHITE +
-                      Language.Translation.Translate_Language(filename, "Default", "Found", "None").format(subject, username))
-                print(Font.Color.YELLOW +
-                      "[v]" + Font.Color.WHITE + "LINK: {}".format(site1))
+                print(
+                    (
+                        f"{Font.Color.YELLOW}[v]{Font.Color.WHITE}"
+                        + Language.Translation.Translate_Language(
+                            filename, "Default", "Found", "None"
+                        ).format(subject, username)
+                    )
+                )
+                print(
+                    (
+                        Font.Color.YELLOW
+                        + "[v]"
+                        + Font.Color.WHITE
+                        + f"LINK: {site1}"
+                    )
+                )
                 if Writable == True:
                     f.write(site1 + "\r\n")
-                    print(Font.Color.BLUE +
-                      "[I]" + Font.Color.WHITE + "TAGS:[{}]".format((Font.Color.GREEN + Tag + Font.Color.WHITE)))
+                    print(
+                        (
+                            Font.Color.BLUE
+                            + "[I]"
+                            + Font.Color.WHITE
+                            + f"TAGS:[{Font.Color.GREEN + Tag + Font.Color.WHITE}]"
+                        )
+                    )
                     Tags.append(Tag)
                 else:
-                    f.write("{}:{}\r\n".format(name, main))
+                    f.write(f"{name}:{main}\r\n")
                 successfull.append(site1)
                 successfullName.append(name)
                 if is_scrapable == "True":
                     ScraperSites.append(name)
 
-        d = open(json_file2, "w")
-        d.write('''{
+        with open(json_file2, "w") as d:
+            d.write('''{
                     "Names":[
 
                     ]
                 }''')
-        d.close()
-
-        f = open(json_file, "w")
-        f.write('''{
+        with open(json_file, "w") as f:
+            f.write('''{
                     "List":[
 
                     ]
                 }''')
-        f.close()
-
         for element in successfullName:
-            data = {
-                "name": "{}".format(element)
-            }
+            data = {"name": f"{element}"}
             with open(json_file2, 'r+') as file2:
                 file_data2 = json.load(file2)
                 file_data2["Names"].append(data)
@@ -117,9 +189,7 @@ class Search:
                 json.dump(file_data2, file2, indent=4)
 
         for element in successfull:
-            data = {
-                "site": "{}".format(element)
-            }
+            data = {"site": f"{element}"}
             with open(json_file, 'r+') as file:
                 file_data = json.load(file)
                 file_data["List"].append(data)
